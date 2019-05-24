@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import Navbar from './components/navbar/Navbar'
+import Categories from './components/categories/Categories'
 
 function App() {
   if ('serviceWorker' in navigator) {
@@ -12,6 +13,7 @@ function App() {
   return (
     <div>
       <Navbar />
+      <Categories />
     </div>
   );
 }
