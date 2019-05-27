@@ -12,7 +12,7 @@ function App() {
 
   return (
     <div>
-      <Navbar />
+      <Navbar main={true} />
       <Categories />
     </div>
   );

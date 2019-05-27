@@ -12,7 +12,7 @@ import SpaIcon from '@material-ui/icons/Spa';
 import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
 import FolderIcon from '@material-ui/icons/Folder';
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { ListItemText } from '@material-ui/core';
 
 const useStyles = makeStyles({
@@ -61,9 +61,15 @@ const useStyles = makeStyles({
             width: '35px'
         }
     },
+    userName: {
+        fontWeight: 'normal',
+        textAlign: 'center',
+        marginTop: 0,
+        color: '#456152',
+    }
 });
 
-const Categories = (props) => {
+const Categories = ({history}) => {
     const classes = useStyles();
     const [categories, setCategories] = useState([])
     const [merchants, setMerchants] = useState(0)
@@ -78,10 +84,10 @@ const Categories = (props) => {
 
     useEffect(merchants => {
         axios.get('https://my-json-server.typicode.com/lazicmladen/FakeServer/mercants')
-        .then(res => {
-            setMerchants(res.data.length)
-        })
-        .catch(err => console.log(err))
+            .then(res => {
+                setMerchants(res.data.length)
+            })
+            .catch(err => console.log(err))
     }, [])
 
     const chooseIcon = id => {
@@ -91,8 +97,8 @@ const Categories = (props) => {
             case 3: return <DeveloperBoardIcon className={classes.listIcon} />;
             default: return <FolderIcon className={classes.listIcon} />
         }
-
     }
+
     // if (state.users === null) return (
     //         <div style={{ textAlign: 'center'}}>
     //             <Loader type="Triangle" color="green" height="50" width="50" />
@@ -100,10 +106,11 @@ const Categories = (props) => {
 
     return (
         <React.Fragment>
+            <h5 className={classes.userName}>Choose Category For Available Gifts</h5>
             <MenuList classes={{ root: classes.menuList }}>
                 {categories.map(el => {
                     return (
-                        <MenuItem key={el.id} classes={{ root: classes.listItem }}>
+                        <MenuItem key={el.id} classes={{ root: classes.listItem }} onClick={() => { history.push('/merchants') }}>
                             <ListItemIcon>
                                 {chooseIcon(el.id)}
                             </ListItemIcon>
@@ -121,11 +128,10 @@ const Categories = (props) => {
                 {categories.map(el => {
                     return (
                         <Grid item key={el.id} sm={6} md={4}>
-                            <Paper className={classes.cardPaper}>
+                            <Paper className={classes.cardPaper} onClick={() => { history.push('/merchants') }}>
                                 {chooseIcon(el.id)}
                                 <p className={classes.listItemText}>{el.title}</p>
                                 <p style={{ color: 'grey', margin: '0', fontWeight: 'normal' }}>{merchants} Gifts Available</p>
-                                <Link to="/merchants">Merchants</Link>
                             </Paper>
                         </Grid>
 
@@ -136,4 +142,4 @@ const Categories = (props) => {
     )
 }
 
-export default Categories;
+export default withRouter(Categories);
