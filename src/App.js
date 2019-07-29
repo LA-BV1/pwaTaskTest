@@ -1,6 +1,5 @@
 import React from 'react';
-import './App.css';
-import Navbar from './components/navbar/Navbar'
+import './styles/App.css';
 import Categories from './components/categories/Categories'
 
 function App() {
@@ -11,10 +10,7 @@ function App() {
   }
 
   return (
-    <div>
-      <Navbar main={true} />
-      <Categories />
-    </div>
+    <Categories />
   );
 }
 

@@ -11,84 +11,40 @@ import FastfoodIcon from '@material-ui/icons/Fastfood';
 import SpaIcon from '@material-ui/icons/Spa';
 import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
 import FolderIcon from '@material-ui/icons/Folder';
-import axios from 'axios'
+import { Api } from '../../services/Api'
 import { withRouter } from 'react-router-dom'
 import { ListItemText } from '@material-ui/core';
+import categoriesStyle from '../../util/categoriesStyle'
 
-const useStyles = makeStyles({
-    menuList: {
-        ['@media (min-width:600px)']: { // eslint-disable-line no-useless-computed-key
-            display: 'none'
-        }
-    },
-    listItem: {
-        borderTop: '1px solid lightgrey',
-        borderBottom: '1px solid lightgrey',
-        color: '#639E85',
-        height: '65px',
-        fontWeight: 'bold',
-        fontSize: '14px',
-        margin: '0 10px',
-        paddingRight: 0
-    },
-    listItemText: {
-        fontWeight: "bold",
-        color: '#639E85',
-    },
-    listArrow: {
-        color: 'lightgrey',
-        height: '40px',
-        width: '40px',
-        position: 'absolute',
-        right: 0,
-    },
-    cardGrid: {
-        width: '90%',
-        margin: '0 auto',
-        ['@media (max-width:600px)']: { // eslint-disable-line no-useless-computed-key
-            display: 'none'
-        }
-    },
-    cardPaper: {
-        textAlign: 'center',
-        padding: '5px',
-        margin: '5px'
-    },
-    listIcon: {
-        color: '#639E85',
-        ['@media (min-width:600px)']: { // eslint-disable-line no-useless-computed-key
-            height: '35px',
-            width: '35px'
-        }
-    },
-    userName: {
-        fontWeight: 'normal',
-        textAlign: 'center',
-        marginTop: 0,
-        color: '#456152',
-    }
-});
+const useStyles = makeStyles(categoriesStyle);
 
-const Categories = ({history}) => {
+const Categories = ({ history }) => {
     const classes = useStyles();
     const [categories, setCategories] = useState([])
     const [merchants, setMerchants] = useState(0)
 
-    useEffect(categories => {
-        axios.get('https://my-json-server.typicode.com/lazicmladen/FakeServer/categories')
-            .then(res => {
-                setCategories(res.data)
-            })
-            .catch(err => console.log(err))
+    useEffect(() => {
+        fetchMerchants()
+        fetchCategories()
+        let timer1 = setInterval(fetchMerchants, 10000)
+        let timer2 = setInterval(fetchCategories, 10000)
+        return () => {
+            clearInterval(timer1)
+            clearInterval(timer2)
+        }
     }, [])
 
-    useEffect(merchants => {
-        axios.get('https://my-json-server.typicode.com/lazicmladen/FakeServer/mercants')
-            .then(res => {
-                setMerchants(res.data.length)
-            })
-            .catch(err => console.log(err))
-    }, [])
+    const fetchMerchants = async () => {
+        console.log(1)
+        let response = await Api.merchants.getMerchants()
+        setMerchants(response.length)
+    }
+
+    const fetchCategories = async () => {
+        console.log(2)
+        let response = await Api.categories.getCategories()
+        setCategories(response)
+    }
 
     const chooseIcon = id => {
         switch (id) {
@@ -98,11 +54,6 @@ const Categories = ({history}) => {
             default: return <FolderIcon className={classes.listIcon} />
         }
     }
-
-    // if (state.users === null) return (
-    //         <div style={{ textAlign: 'center'}}>
-    //             <Loader type="Triangle" color="green" height="50" width="50" />
-    //         </div>)
 
     return (
         <React.Fragment>
