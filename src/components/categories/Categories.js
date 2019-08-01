@@ -35,15 +35,17 @@ const Categories = ({ history }) => {
     }, [])
 
     const fetchMerchants = async () => {
-        console.log(1)
         let response = await Api.merchants.getMerchants()
-        setMerchants(response.length)
+        if (response !== undefined && response.status === 200) {
+            setMerchants(response.data.length)
+        } else return
     }
 
     const fetchCategories = async () => {
-        console.log(2)
         let response = await Api.categories.getCategories()
-        setCategories(response)
+        if (response !== undefined && response.status === 200) {
+            setCategories(response.data)
+        } else return
     }
 
     const chooseIcon = id => {

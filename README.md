@@ -23,6 +23,7 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
-### `npm run sw-build`
+### `npm run dev`
 
-Builds service-worker with custom template
+WIll start serving app with lite-server package
+

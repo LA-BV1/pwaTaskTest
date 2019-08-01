@@ -18,7 +18,7 @@ class BaseApiService {
                 url,
                 params
             })
-            .then(response => response.data)
+            .then(response => response)
             .catch(this.handleError);
     }
 

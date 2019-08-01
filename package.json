@@ -71,7 +71,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "clean-cra-sw": "rm -f build/precache-manifest.*.js && rm -f build/service-worker.js",
+    "dev": "lite-server",
     "build-sw": "node ./src/sw-build.js",
     "test": "node scripts/test.js"
   },
@@ -141,6 +141,7 @@
     ]
   },
   "devDependencies": {
+    "lite-server": "^2.5.3",
     "workbox-build": "^4.3.1",
     "workbox-cli": "^4.3.1"
   }

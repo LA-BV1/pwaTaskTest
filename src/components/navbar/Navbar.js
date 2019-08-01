@@ -16,7 +16,9 @@ const Navbar = props => {
     useEffect(() => {
         const fetchUsers = async () => {
             let response = await Api.users.getUsers()
-            setUsers(response)
+            if (response !== undefined && response.status === 200) {
+                setUsers(response.data)
+            } else return
         }
         fetchUsers()
     }, [])

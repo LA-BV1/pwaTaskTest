@@ -24,10 +24,11 @@ const Merchants = props => {
     }, [])
 
     const fetchAllMerchants = async () => {
-        console.log('entered merc2')
         let response = await Api.merchants.getMerchants()
-        setAllMerchants(response.filter(item => item.categoryId === 1))
-        setMerchants(response.filter(item => item.categoryId === 1))
+        if (response !== undefined && response.status === 200) {
+            setAllMerchants(response.data.filter(item => item.categoryId === 1))
+            setMerchants(response.data.filter(item => item.categoryId === 1))
+        } else return
     }
 
     const getSearchValue = (value) => {
